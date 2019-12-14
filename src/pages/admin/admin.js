@@ -1,51 +1,75 @@
-import React from 'react';
-import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
-import Header from '../../components/Header/Header';
+import React, { Component } from 'react';
+import { jsxIdentifier } from '@babel/types';
 
 
+class adminperfil extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listaEventos: [],
+      nomeEvento: '',
+      dataEvento: '',
+      HoraEvento: '',
+      DescriçãoEvento: ''
+    }
+    this.buscarEvento = this.buscarEvento.bind(this);
+  }
 
 
-<div className="Texto"></div>
- 
+    componentDidMount(){
+        this.buscarEvento();
+    }
 
-const BasicTable = () => {
-  return (
- <MDBTable striped>
-      <MDBTableHead>
-        <tr>
-          <th>Id</th>
-          <th>Nome</th>
-          <th>Data</th>
-          <th>Horário</th>
-          <th>Descrição</th>
-        </tr>
-      </MDBTableHead>
-      <MDBTableBody>
-        <tr>
-          <td>1</td>
-          <td>React</td>
-          <td>20/10/19</td>
-          <td>21h</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Desenvolvedor</td>
-          <td>20/10/19</td>
-          <td>20h</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>C#</td>
-          <td>20/10/19</td>
-          <td>19h</td>
-          <td></td>
-        </tr>
+ //o que dá ínicio a todos os requisitos determinados na exibição 
 
-      </MDBTableBody>
-    </MDBTable>
-  );
+
+    buscarEvento(){
+      fetch('http://localhost:5000/api/Evento')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ listaEventos: data })
+      })
+      .catch(error => console.log(error))
+    }
+
+
+  render() {
+      return (
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>Data</th>
+              <th>Horário</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+
+
+            {
+              this.state.listaEventos.map(function (evento) {
+                return (
+
+                  <tr key={evento.eventoId} >
+                    <td>{evento.eventoId}</td>
+                    <td>{evento.nomeEvento}</td>
+                    <td>{evento.dataEvento}</td>
+                    <td>{evento.horaEvento}</td>
+                    <td>{evento.descricaoEvento}</td>
+                  </tr>
+
+                );//fim do retorno
+
+              }.bind(this))
+            }
+
+            
+
+        </table>
+      );
+  }
+  
 }
 
-export default BasicTable;
+export default adminperfil;

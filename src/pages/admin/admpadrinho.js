@@ -1,16 +1,44 @@
-import React from 'react';
-import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import React, { Component } from 'react';
 
 
 
+class adminpadrinho extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listaEventos: [],
+      nomeEvento: '',
+      dataEvento: '',
+      HoraEvento: '',
+      DescriçãoEvento: ''
+    }
+    this.buscarEvento = this.buscarEvento.bind(this);
+  }
 
- 
 
-const BasicTable = () => {
+    componentDidMount(){
+        this.buscarEvento();
+    }
+
+ //o que dá ínicio a todos os requisitos determinados na exibição 
+
+
+    buscarEvento(){
+      fetch('http://localhost:5000/api/Evento')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ listaEventos: data })
+      })
+      .catch(error => console.log(error))
+    }
+
+  
+  render() {
   return (
-    <MDBTable striped>
-      <MDBTableHead>
-        <tr>
+    <table>
+
+    <thead>
+    <tr>
           <th>Id</th>
           <th>Nome</th>
           <th>Data</th>
@@ -18,37 +46,31 @@ const BasicTable = () => {
           <th>Descrição</th>
           <th>Funções</th>
         </tr>
-      </MDBTableHead>
-      <MDBTableBody>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td></td>
-          <td><button type="button" class="btn btn-warning btn-rounded">Apadrinhar</button></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-          <td></td>
-          <td><button type="button" class="btn btn-warning btn-rounded">Apadrinhar</button></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td></td>
-          <td><button type="button" class="btn btn-warning btn-rounded">Apadrinhar</button></td>
-          
-        </tr>
+        </thead>
+        {
+              this.state.listaEventos.map(function (evento) {
+                return (
 
-      </MDBTableBody>
-    </MDBTable>
-  );
+                  <tr key={evento.eventoId} >
+                    <td>{evento.eventoId}</td>
+                    <td>{evento.nomeEvento}</td>
+                    <td>{evento.dataEvento}</td>
+                    <td>{evento.horaEvento}</td>
+                    <td>{evento.descricaoEvento}</td>
+                    <td><button type="button" class="btn btn-warning btn-rounded">Apadrinhar</button></td>
+                  </tr>
+
+                );//fim do retorno
+
+              }.bind(this))
+            }
+
+            
+
+        </table>
+      );
+  }
+  
 }
-
-export default BasicTable;
+        
+  export default adminpadrinho;

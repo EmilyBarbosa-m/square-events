@@ -24,6 +24,7 @@ import 'mdbreact/dist/css/mdb.css';
 
 
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import adminperfil from './pages/admin/admin';
 
 
 // import editeseuperfil from './pages/editeseuperfil/editeseuperfil';
@@ -39,7 +40,7 @@ const Rotas = (
                 <Route path='/criandoevento' component={crieseuevento} />
                 <Route path='/administrador' component={Administrador} />
                 <Route path='/editeseuperfil' component={EditeSeuPerfil}/>
-               <Route path='/administrador' component={Administrador}/>
+               <Route path='/administrador' component={adminperfil}/>
                <Route path='/administradoraprova' component={AdministradorAprova}/>
                <Route path='/administradorpadrinho' component={AdministradorPadrinho}/>
                <Route path='./comunidadeperfil' component={comunidade}/>
